@@ -1,0 +1,81 @@
+<nav class="{{currentLevel.lvlclass}}">
+    <div class="level">
+        {{currentLevel.title}}
+    </div>
+    <div class="points">
+        {{totalPoints}} pts.
+    </div>
+    <div class="timers">
+        <div class="progress-bar">
+            <span style=""></span>
+        </div>
+        <div class="count">
+            {{duration}} / {{currentLevel.time}}seg
+        </div>
+    </div>
+    <div class="combo">
+        {{#if combo}}
+            <div class="animated bounceInUp"> Combo {{combo}}+ </div>
+        {{/if}}
+    </div>
+    <a class="go-back" {{action 'pause'}}>
+        ll
+    </a>
+</nav>
+<div class="memotest {{currentLevel.lvlclass}}">
+    {{#each cards as |card|}}
+        <div class="card-animation animated bounceInUp">
+            {{memo-card class="card" model=card flipped='flipped' bloked=cardsBloked }}
+        </div>
+    {{/each}}
+    {{#if isFinish}}
+        <div class="game-finish animated fadeIn">
+            <div class="animated bounceInUp">
+                <img src="img/pisku.svg" class="bounce pisku pisku-anim" width="150px">
+                {{#if isWin}}
+                    <h2>Nivel completado!</h2>
+                    <audio src="img/win.mp3" autoplay></audio>
+                    {{#if hasNextLevel}}
+                        <h2>Total: {{totalPoints}}pts</h2>
+                        <h2 style="font-size: 20px;">{{points}}pts + {{pointsBonus}}pts ({{reminder}} segs)</h2>
+                        {{#link-to 'index' class='game-home'}}
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                        {{/link-to}}
+                        <a {{action 'next'}} class="game-next">
+                            <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                        </a>
+                    {{else}}
+                        <h2>{{totalPoints}}pts</h2>
+                        <h2>¿Jugamos otra ves?</h2>
+                        {{#link-to 'index' class='game-home'}}
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                        {{/link-to}}
+                    {{/if}}
+                {{/if}}
+                {{#if isLost}}
+                    <h2>Se acabó el tiempo!</h2>
+                    <h2 style="font-size: 20px;">{{points}}pts + {{pointsBonus}}pts ({{reminder}} segs)</h2>
+                    <h2>{{totalPoints}}pts</h2>
+                    {{#link-to 'index' class='game-home'}}
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                    {{/link-to}}
+                {{/if}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if isPause}}
+        <div class="game-pause animated fadeIn">
+            <div class="animated bounceInUp">
+                <h1>Juego en pausa</h1>
+                <h2>{{currentLevel.title}}</h2>
+                <h2>Puntaje: {{totalPoints}}</h2>
+                {{#link-to 'index' class='game-home'}}
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                {{/link-to}}
+                <a {{action 'resume'}} class="game-next">
+                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    {{/if}}
+</div>
